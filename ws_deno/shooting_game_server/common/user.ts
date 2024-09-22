@@ -13,13 +13,17 @@ export enum UserConnectionType {
 
 export class User {
     name: string;
+    ip_address : string;
     user_type : UserType;
     connection_type : UserConnectionType;
-  
+    game_session_id : number;
+
     constructor(name: string) {
         this.name = name;
+        this.ip_address = "";
         this.connection_type = UserConnectionType.DEFAULT;
         this.user_type = UserType.DEFAULT;
+        this.game_session_id = 0;
     }
 
     ChangeConnectionType(changedType : UserConnectionType) {
