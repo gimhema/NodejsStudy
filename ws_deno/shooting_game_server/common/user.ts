@@ -1,4 +1,10 @@
-export enum ConnectionType {
+export enum UserType {
+    DEFAULT,
+    CLIENT,
+    SERVER
+}
+
+export enum UserConnectionType {
     DEFAULT,    // 0
     LOGIN,  // 1
     LOBBY,  // 2
@@ -7,14 +13,16 @@ export enum ConnectionType {
 
 export class User {
     name: string;
-    connection_type : ConnectionType;
+    user_type : UserType;
+    connection_type : UserConnectionType;
   
     constructor(name: string) {
         this.name = name;
-        this.connection_type = ConnectionType.DEFAULT;
+        this.connection_type = UserConnectionType.DEFAULT;
+        this.user_type = UserType.DEFAULT;
     }
 
-    ChangeConnectionType(changedType : ConnectionType) {
+    ChangeConnectionType(changedType : UserConnectionType) {
         this.connection_type = changedType;
     }
   
