@@ -12,9 +12,17 @@ export type Location = {
     z: number;
 };
 
+export enum MoveMode {
+    DEFAULT,
+    GROUND,
+    FLY
+}
+
 export type PlayerStatus = {
     life: number;
     mana: number;
+    alive : boolean;
+    move : MoveMode;
 };
 
 export class Player {
