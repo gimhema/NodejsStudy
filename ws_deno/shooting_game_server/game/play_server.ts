@@ -1,5 +1,5 @@
 // deno run --allow-net --unstable .\server.ts
-
+import { GameServer } from "./play_server_interface.ts";
 
 let message_count = 0;
 
@@ -16,6 +16,8 @@ const listener = Deno.listenDatagram({
     transport: "udp",
 });
 
+const gameServer = new GameServer();
+
 console.log(`Server is running on ${SERVER_IP}:${SERVER_PORT}`);
 
 for await (const [data, address] of listener) {
@@ -23,12 +25,14 @@ for await (const [data, address] of listener) {
     const startTime = performance.now(); // Start
 
     const receivedMessage = decoder.decode(data);
-    console.log("Server - received : ", receivedMessage);
 
     // Echo back the received message
-    const response =  encoder.encode("Echo Message from Deno");
+    // const response =  encoder.encode("Echo Message from Deno");
+    
+    gameServer.messageAction(receivedMessage);
+
     // const response = encoder.encode(receivedMessage);
-    await listener.send(response, address);  // 받은 데이터를 클라이언트에게 그대로 전송
+    // await listener.send(response, address);  // 받은 데이터를 클라이언트에게 그대로 전송
 
     const endTime = performance.now(); // End
 

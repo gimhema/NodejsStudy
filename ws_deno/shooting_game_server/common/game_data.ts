@@ -30,11 +30,14 @@ export class Player {
     location: Location;
     status: PlayerStatus;
     weapon : WeaponBase;
+    ip_address : string;
 
-    constructor(name: string, location: Location, status: PlayerStatus, weapon : WeaponBase) {
+    constructor(name: string, location: Location, 
+        status: PlayerStatus, weapon : WeaponBase, ip_address : string) {
         this.name = name;
         this.location = location;
         this.status = status;
         this.weapon = weapon;
+        this.ip_address = ip_address;
     }
 }

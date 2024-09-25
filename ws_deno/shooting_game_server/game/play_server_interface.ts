@@ -7,4 +7,12 @@ export class GameServer {
         this.players = [];
     }
 
+    newPlayer(player : Player) {        
+        this.players.push(player);
+    }
+
+    messageAction(msg : string) {
+        console.log("Server - received : ", msg);
+    }
+
 }
