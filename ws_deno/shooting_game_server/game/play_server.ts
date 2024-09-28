@@ -40,30 +40,35 @@ async function handleUdpConnections() {
 }
 
 async function handleTcpConnections() {
-  for await (const tcpConn of tcpListener) {
-    (async () => {
-      try {
-        const buffer = new Uint8Array(1024);
-        const n = await tcpConn.read(buffer);
-        if (n === null) {
+    for await (const tcpConn of tcpListener) {
+      (async () => {
+        try {
+          const buffer = new Uint8Array(1024);
+          const n = await tcpConn.read(buffer);
+  
+          // 연결이 끊어진 경우
+          if (n === null) {
+            const remoteAddr = tcpConn.remoteAddr as Deno.NetAddr; // 클라이언트의 주소 정보를 추출
+            console.log(`Client disconnected: ${remoteAddr.hostname}:${remoteAddr.port}`);
+            tcpConn.close();
+            return;
+          }
+  
+          const receivedMessage = decoder.decode(buffer.subarray(0, n));
+  
+          gameServer.messageAction(receivedMessage);
+  
+          const response = encoder.encode("Echo Message from TCP Server");
+          await tcpConn.write(response);
+  
           tcpConn.close();
-          return;
+        } catch (error) {
+          console.error("TCP connection error:", error);
         }
-
-        const receivedMessage = decoder.decode(buffer.subarray(0, n));
-
-        gameServer.messageAction(receivedMessage);
-
-        const response = encoder.encode("Echo Message from TCP Server");
-        await tcpConn.write(response);
-
-        tcpConn.close();
-      } catch (error) {
-        console.error("TCP connection error:", error);
-      }
-    })();
+      })();
+    }
   }
-}
+  
 
 // UDP와 TCP 서버를 비동기적으로 실행
 await Promise.all([handleUdpConnections(), handleTcpConnections()]);
