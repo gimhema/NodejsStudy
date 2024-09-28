@@ -50,6 +50,7 @@ async function handleTcpConnections() {
           if (n === null) {
             const remoteAddr = tcpConn.remoteAddr as Deno.NetAddr; // 클라이언트의 주소 정보를 추출
             console.log(`Client disconnected: ${remoteAddr.hostname}:${remoteAddr.port}`);
+            gameServer.delUserByIPAddress(remoteAddr.hostname);
             tcpConn.close();
             return;
           }
