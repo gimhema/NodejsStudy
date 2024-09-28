@@ -1,4 +1,5 @@
 import { GameServer } from "./play_server_interface.ts";
+import { Player } from "./../common/game_data.ts"
 
 let message_count = 0;
 
@@ -41,34 +42,41 @@ async function handleUdpConnections() {
 
 async function handleTcpConnections() {
     for await (const tcpConn of tcpListener) {
-      (async () => {
-        try {
-          const buffer = new Uint8Array(1024);
-          const n = await tcpConn.read(buffer);
-  
-          // 연결이 끊어진 경우
-          if (n === null) {
-            const remoteAddr = tcpConn.remoteAddr as Deno.NetAddr; // 클라이언트의 주소 정보를 추출
-            console.log(`Client disconnected: ${remoteAddr.hostname}:${remoteAddr.port}`);
-            gameServer.delUserByIPAddress(remoteAddr.hostname);
-            tcpConn.close();
-            return;
-          }
-  
-          const receivedMessage = decoder.decode(buffer.subarray(0, n));
-  
-          gameServer.messageAction(receivedMessage);
-  
-          const response = encoder.encode("Echo Message from TCP Server");
-          await tcpConn.write(response);
-  
-          tcpConn.close();
-        } catch (error) {
-          console.error("TCP connection error:", error);
-        }
-      })();
+        // 클라이언트가 연결되었을 때
+        (async () => {
+            try {
+                const buffer = new Uint8Array(1024);
+                // 클라이언트와의 연결을 배열에 추가
+                const remoteAddr = tcpConn.remoteAddr as Deno.NetAddr;
+                let connected_player = new Player();
+                connected_player.ip_address = remoteAddr.hostname;
+                gameServer.newPlayer(connected_player);
+                console.log(`New client connected: ${remoteAddr.hostname}:${remoteAddr.port}`);
+
+                const n = await tcpConn.read(buffer);
+
+                // 연결이 끊어진 경우
+                if (n === null) {
+                    console.log(`Client disconnected: ${remoteAddr.hostname}:${remoteAddr.port}`);
+                    gameServer.delUserByIPAddress(remoteAddr.hostname);
+                    // this.connections = this.connections.filter(conn => conn !== tcpConn); // 배열에서 삭제
+                    tcpConn.close();
+                    return;
+                }
+
+                const receivedMessage = decoder.decode(buffer.subarray(0, n));
+                gameServer.messageAction(receivedMessage);
+
+                const response = encoder.encode("Echo Message from TCP Server");
+                await tcpConn.write(response);
+
+                tcpConn.close();
+            } catch (error) {
+                console.error("TCP connection error:", error);
+            }
+        })();
     }
-  }
+}
   
 
 // UDP와 TCP 서버를 비동기적으로 실행
