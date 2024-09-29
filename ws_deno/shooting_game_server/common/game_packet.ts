@@ -6,10 +6,12 @@ import { Rotation, Location, MoveMode } from "./game_data.ts";
 
 export interface GamePakcetPing {
     packetType : number;
+    playerId : number;
 }
 
 export interface GamePacketTransformation {
     packetType : number;
+    playerId : number;
     locX : number;
     locY : number;
     locZ : number;
@@ -20,6 +22,7 @@ export interface GamePacketTransformation {
 
 export interface GamePacketDamage {
     packetType : number;
+    playerId : number;
     damage : number;
 }
 
