@@ -1,4 +1,5 @@
 import { Player } from "../common/game_data.ts";
+import { GamePakcetPing, GamePacketDamage, GamePacketTransformation } from "../common/game_packet.ts";
 
 export class GameServer {
     private players: Player[];
@@ -15,20 +16,26 @@ export class GameServer {
         console.log("Server - received:", msg);
         
         try {
-            const jsonData = JSON.parse(msg); // JSON 파싱
+            const jsonData : any = JSON.parse(msg); // JSON 파싱
     
-            switch (jsonData.action) {
-                case 'join':
-                    // 플레이어 추가 처리
-                    console.log(`Player joined: ${jsonData.playerName}`);
+            switch (jsonData.packetType) {
+                case 0:
+                    {
+                    // Ping
+                    const pingPacket = jsonData as GamePakcetPing;
+                    }
                     break;
-                case 'message':
-                    // 메시지 처리
-                    console.log(`Message from player: ${jsonData.playerName} - ${jsonData.content}`);
+                case 1:
+                    // Transformation
+                    {
+                        const transformationPacket = jsonData as GamePacketTransformation;
+                    }
                     break;
-                case 'disconnect':
-                    // 연결 끊김 처리
-                    console.log(`Player disconnected: ${jsonData.playerName}`);
+                case 2:
+                    // Damage
+                    {
+                        const damagePacket = jsonData  as GamePacketDamage;
+                    }
                     break;
                 default:
                     console.log("Unknown action:", jsonData.action);

@@ -1,10 +1,8 @@
 import { Rotation, Location, MoveMode } from "./game_data.ts";
 
-export enum PacketType {
-    PING,
-    TRANSFORMATION,
-    DAMAGE
-}
+// 0 : Ping
+// 1 : Transformation
+// 2 : Damage
 
 export interface GamePakcetPing {
     packetType : number;
