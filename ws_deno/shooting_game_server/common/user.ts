@@ -1,3 +1,5 @@
+import { PlayerSession } from "./game_session.ts";
+
 export enum UserType {
     DEFAULT,
     CLIENT,
@@ -13,17 +15,15 @@ export enum UserConnectionType {
 
 export class User {
     name: string;
-    ip_address : string;
     user_type : UserType;
     connection_type : UserConnectionType;
-    game_session_id : number;
+    playerSession : PlayerSession | null;
 
     constructor(name: string) {
         this.name = name;
-        this.ip_address = "";
         this.connection_type = UserConnectionType.DEFAULT;
         this.user_type = UserType.DEFAULT;
-        this.game_session_id = 0;
+        this.playerSession = null;
     }
 
     ChangeConnectionType(changedType : UserConnectionType) {
