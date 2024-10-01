@@ -49,7 +49,7 @@ async function handleTcpConnections() {
                 // 클라이언트와의 연결을 배열에 추가
                 const remoteAddr = tcpConn.remoteAddr as Deno.NetAddr;
                 let connected_player = new Player();
-                connected_player.ip_address = remoteAddr.hostname;
+                // onnected_player.ip_address = remoteAddr.hostname;
                 gameServer.newPlayer(connected_player);
                 console.log(`New client connected: ${remoteAddr.hostname}:${remoteAddr.port}`);
 

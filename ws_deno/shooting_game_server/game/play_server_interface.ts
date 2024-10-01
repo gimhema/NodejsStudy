@@ -26,6 +26,11 @@ export class GameServer {
         return true;
     }
 
+    isExistTcpConn(key : string) : boolean {
+        // if(this.playerContainer.get(key).)
+        return true;
+    }
+
     addNewPlayer(key : string, player : Player) {
         this.playerContainer.set(key, player);
     }
