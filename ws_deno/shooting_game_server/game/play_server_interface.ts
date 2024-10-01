@@ -26,10 +26,9 @@ export class GameServer {
         return true;
     }
 
-    isExistTcpConn(key : string) : boolean {
-        // if(this.playerContainer.get(key).)
-        return true;
-    }
+    // isExistTcpConn(key : string) : boolean {
+    //     return this.playerContainer.get(key)?.isEstablishedTCP;
+    // }
 
     addNewPlayer(key : string, player : Player) {
         this.playerContainer.set(key, player);
@@ -73,13 +72,13 @@ export class GameServer {
     
 
     delUserByIPAddress(ipAddress: string) {
-        for (let index = 0; index < this.players.length; index++) {
-            if (this.players[index].ip_address === ipAddress) {
-                this.players.splice(index, 1);
-                console.log(`Player with IP ${ipAddress} has been removed.`);
-                return; 
-            }
-        }
+        // for (let index = 0; index < this.players.length; index++) {
+        //     if (this.players[index].ip_address === ipAddress) {
+        //         this.players.splice(index, 1);
+        //         console.log(`Player with IP ${ipAddress} has been removed.`);
+        //         return; 
+        //     }
+        // }
         console.log(`No player found with IP ${ipAddress}.`); // 플레이어가 없을 경우 메시지 출력
     }
     

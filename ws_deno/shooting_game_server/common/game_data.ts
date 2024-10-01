@@ -32,6 +32,8 @@ export class Player {
     status: PlayerStatus;
     weapon : WeaponBase;
     playerSession : PlayerSession | null;
+    isEstablishedTCP : boolean;
+    isEstablishedUDP : boolean;
     // ip_address : string;
 
     constructor(
@@ -46,6 +48,7 @@ export class Player {
         this.status = status;
         this.weapon = weapon;
         this.playerSession = null;
-        // this.ip_address = ip_address;
+        this.isEstablishedTCP = false;
+        this.isEstablishedUDP = false; 
     }
 }
