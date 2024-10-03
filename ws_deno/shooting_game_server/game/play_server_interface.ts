@@ -26,6 +26,49 @@ export class GameServer {
         return true;
     }
 
+    // Deno.DatagramConn
+    // TcpConn
+    establishTcpStream(key: string, tcpStream: Deno.TcpConn) {
+        const player = this.playerContainer.get(key);
+        if (player) {
+            // 플레이어 세션이 없으면 새로 생성
+            if (!player.playerSession) {
+                player.playerSession = {
+                    sessionId: Date.now(),  // sessionId를 현재 시간 기반으로 생성 (유일성 보장)
+                    udpSocket: null as unknown as Deno.DatagramConn, // 초기 값, 이후 실제 연결 시 설정
+                    tcpStream: tcpStream
+                };
+            } else {
+                // 기존 세션에 TCP 스트림만 갱신
+                player.playerSession.tcpStream = tcpStream;
+            }
+    
+            // TCP 연결이 성공적으로 설정되었음을 표시
+            player.isEstablishedTCP = true;
+        } else {
+            console.log(`Player with key ${key} not found.`);
+        }
+    }
+
+    establishUdpSocket(key: string, udpSocket : Deno.DatagramConn) {
+        const player = this.playerContainer.get(key);
+        if (player) {
+            // 플레이어 세션이 없으면 새로 생성
+            if (!player.playerSession) {
+                console.log("Must be establish TCP stream")
+            } else {
+                // 기존 세션에 UDP 스트림만 갱신
+                player.playerSession.udpSocket = udpSocket;
+            }
+    
+            // TCP 연결이 성공적으로 설정되었음을 표시
+            player.isEstablishedUDP = true;
+        } else {
+            console.log(`Player with key ${key} not found.`);
+        }
+    }
+
+
     isExistTcpConn(key : string) : boolean {
         if (true == this.playerContainer.get(key)?.isEstablishedTCP)
         {

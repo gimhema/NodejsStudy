@@ -31,14 +31,21 @@ async function handleUdpConnections() {
 
     const receivedMessage = decoder.decode(data);
 
-    if (address.transport === "udp") {
-      const key = (address as Deno.NetAddr).hostname;  // address를 NetAddr로 캐스팅
-      if (gameServer.isExistUdpConn(key)) {
-        gameServer.messageAction(receivedMessage);
+      // address가 NetAddr 타입인지 확인
+      if (address.transport === "udp") {
+        const key = (address as Deno.NetAddr).hostname;  // address를 NetAddr로 캐스팅
+        if (gameServer.isExistUdpConn(key)) {
+          gameServer.messageAction(receivedMessage);
+        }
+        else {
+          if(gameServer.isExistTcpConn(key) ){
+            gameServer.establishUdpSocket(key, udpListener);
+          }
+        }
+
+      } else {
+        console.error("Unsupported address type:", address);
       }
-    } else {
-      console.error("Unsupported address type:", address);
-    }
 
 
 
@@ -57,10 +64,15 @@ async function handleTcpConnections() {
                 const buffer = new Uint8Array(1024);
                 // 클라이언트와의 연결을 배열에 추가
                 const remoteAddr = tcpConn.remoteAddr as Deno.NetAddr;
-                let connected_player = new Player();
-                // onnected_player.ip_address = remoteAddr.hostname;
-                gameServer.newPlayer(connected_player);
-                console.log(`New client connected: ${remoteAddr.hostname}:${remoteAddr.port}`);
+                
+                // gameServer.newPlayer(connected_player);
+                if ( false == gameServer.isExistPlayer(remoteAddr.hostname) ) {
+                  
+                  let connected_player = new Player();
+                  gameServer.addNewPlayer(remoteAddr.hostname, connected_player);
+                  gameServer.establishTcpStream(remoteAddr.hostname, tcpConn);
+                  console.log(`New client connected: ${remoteAddr.hostname}:${remoteAddr.port}`);
+                }
 
                 const n = await tcpConn.read(buffer);
 
