@@ -26,9 +26,21 @@ export class GameServer {
         return true;
     }
 
-    // isExistTcpConn(key : string) : boolean {
-    //     return this.playerContainer.get(key)?.isEstablishedTCP;
-    // }
+    isExistTcpConn(key : string) : boolean {
+        if (true == this.playerContainer.get(key)?.isEstablishedTCP)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    isExistUdpConn(key : string) : boolean {
+        if (true == this.playerContainer.get(key)?.isEstablishedUDP)
+        {
+            return true;
+        }
+        return false;
+    }
 
     addNewPlayer(key : string, player : Player) {
         this.playerContainer.set(key, player);

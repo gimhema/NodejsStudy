@@ -31,7 +31,16 @@ async function handleUdpConnections() {
 
     const receivedMessage = decoder.decode(data);
 
-    gameServer.messageAction(receivedMessage);
+    if (address.transport === "udp") {
+      const key = (address as Deno.NetAddr).hostname;  // address를 NetAddr로 캐스팅
+      if (gameServer.isExistUdpConn(key)) {
+        gameServer.messageAction(receivedMessage);
+      }
+    } else {
+      console.error("Unsupported address type:", address);
+    }
+
+
 
     const endTime = performance.now(); // End
 
