@@ -61,7 +61,7 @@ export class GameServer {
                 player.playerSession.udpSocket = udpSocket;
             }
     
-            // TCP 연결이 성공적으로 설정되었음을 표시
+            // UDP 연결이 성공적으로 설정되었음을 표시
             player.isEstablishedUDP = true;
         } else {
             console.log(`Player with key ${key} not found.`);

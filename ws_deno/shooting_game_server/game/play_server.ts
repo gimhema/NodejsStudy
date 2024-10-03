@@ -98,7 +98,21 @@ async function handleTcpConnections() {
         })();
     }
 }
+
+function gameUpdate() {
+  // 주기적으로 실행할 작업 (예: 플레이어 상태 업데이트, 세션 관리 등)
+  console.log("Update: Server is running...");
   
+  // 예시로 모든 플레이어의 위치를 로그로 출력
+  // gameServer.players.forEach(player => {
+  //   console.log(`Player ${player.name}: ${player.location.x}, ${player.location.y}, ${player.location.z}`);
+  // });
+
+}
+
+const tickInterval = 100; 
+setInterval(gameUpdate, tickInterval);
+
 
 // UDP와 TCP 서버를 비동기적으로 실행
 await Promise.all([handleUdpConnections(), handleTcpConnections()]);
