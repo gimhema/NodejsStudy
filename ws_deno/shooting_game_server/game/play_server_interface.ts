@@ -5,19 +5,22 @@ import { MessageHandler } from "../common/game_message_action.ts";
 // Map<string, { hostname: string; port: number }>();
 
 export class GameServer {
+    private static instance: GameServer | null = null;
+
     private playerContainer : Map<string, Player>;
-    // private players: Player[];
     private messageHandler : MessageHandler;
 
     constructor() {
         this.playerContainer = new Map<string, Player>();
-        // this.players = [];
         this.messageHandler = new MessageHandler();
     }
 
-    // newPlayer(player : Player) {        
-    //     this.players.push(player);
-    // }
+    public static getInstance(): GameServer {
+        if (this.instance === null) {
+          this.instance = new GameServer();
+        }
+        return this.instance;
+      }
 
     isExistPlayer(key : string) : boolean {
         if (!this.playerContainer.has(key)) {

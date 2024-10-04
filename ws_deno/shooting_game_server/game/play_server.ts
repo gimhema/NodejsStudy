@@ -19,7 +19,7 @@ const udpListener = Deno.listenDatagram({
 
 const tcpListener = Deno.listen({ hostname: SERVER_IP, port: TCP_PORT }); // TCP 서버 리스너 추가
 
-const gameServer = new GameServer();
+const gameServer = GameServer.getInstance();
 
 console.log(`UDP Server is running on ${SERVER_IP}:${UDP_PORT}`);
 console.log(`TCP Server is running on ${SERVER_IP}:${TCP_PORT}`);
