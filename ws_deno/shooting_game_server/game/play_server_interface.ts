@@ -154,6 +154,19 @@ export class GameServer {
         }
     }
 
+    getPlayerByIpAddress(ipAddress: string): Player | null {
+        const player = this.playerContainer.get(ipAddress);
+    
+            // player가 존재하는지 확인
+            if (player !== undefined) {
+                return player; // 플레이어를 반환
+            } else {
+                console.log(`No player found with IP ${ipAddress}.`);
+            }
+
+        return null;
+    }
+
     getPlayerById(pId: number): Player | null {
         const ipKey = this.pIdMap.get(pId);
         
@@ -174,5 +187,28 @@ export class GameServer {
         return null; // 플레이어가 없을 경우 null 반환
     }
 
+    RangeExecFuncInPidMap(action: (...args: any[]) => void, start: number, end: number, ...extraArgs: any[]) {
+        let count = 0;
+    
+        this.pIdMap.forEach((value, key) => {
+            if (count >= start && count < end) {
+                const args = [...extraArgs];  // 오직 extraArgs만 인자로 사용
+                action.apply(null, args);     // apply로 extraArgs를 함수에 전달
+            }
+            count++;
+        });
+    }
+
+    RangeExecFuncInPlayerMap(action: (...args: any[]) => void, start: number, end: number, ...extraArgs: any[]) {
+        let count = 0;
+    
+        this.playerContainer.forEach((value, key) => {
+            if (count >= start && count < end) {
+                const args = [...extraArgs];  // 오직 extraArgs만 인자로 사용
+                action.apply(null, args);     // apply로 extraArgs를 함수에 전달
+            }
+            count++;
+        });
+    }
 
 }
