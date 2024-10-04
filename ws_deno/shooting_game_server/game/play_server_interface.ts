@@ -6,18 +6,18 @@ import { MessageHandler } from "../common/game_message_action.ts";
 
 export class GameServer {
     private playerContainer : Map<string, Player>;
-    private players: Player[];
+    // private players: Player[];
     private messageHandler : MessageHandler;
 
     constructor() {
         this.playerContainer = new Map<string, Player>();
-        this.players = [];
+        // this.players = [];
         this.messageHandler = new MessageHandler();
     }
 
-    newPlayer(player : Player) {        
-        this.players.push(player);
-    }
+    // newPlayer(player : Player) {        
+    //     this.players.push(player);
+    // }
 
     isExistPlayer(key : string) : boolean {
         if (!this.playerContainer.has(key)) {
@@ -127,14 +127,11 @@ export class GameServer {
     
 
     delUserByIPAddress(ipAddress: string) {
-        // for (let index = 0; index < this.players.length; index++) {
-        //     if (this.players[index].ip_address === ipAddress) {
-        //         this.players.splice(index, 1);
-        //         console.log(`Player with IP ${ipAddress} has been removed.`);
-        //         return; 
-        //     }
-        // }
-        console.log(`No player found with IP ${ipAddress}.`); // 플레이어가 없을 경우 메시지 출력
+        let result = this.playerContainer.delete(ipAddress);
+        if(false == result)
+        {
+            console.log(`No player found with IP ${ipAddress}.`); // 플레이어가 없을 경우 메시지 출력
+        }
     }
     
 
