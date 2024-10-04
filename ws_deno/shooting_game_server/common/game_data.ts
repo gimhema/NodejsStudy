@@ -52,5 +52,12 @@ export class Player {
         this.isEstablishedUDP = false; 
     }
 
+    sendMsgUDP(target : Deno.Addr, msg : Uint8Array) {
+        this.playerSession?.udpSocket.send(msg, target);
+    }
+
+    sendMsgTCP(msg : Uint8Array) {
+        this.playerSession?.tcpStream.write(msg);
+    }
     
 }

@@ -187,7 +187,7 @@ export class GameServer {
         return null; // 플레이어가 없을 경우 null 반환
     }
 
-    RangeExecFuncInPidMap(action: (...args: any[]) => void, start: number, end: number, ...extraArgs: any[]) {
+    rangeExecFuncInPidMap(action: (...args: any[]) => void, start: number, end: number, ...extraArgs: any[]) {
         let count = 0;
     
         this.pIdMap.forEach((value, key) => {
@@ -199,7 +199,7 @@ export class GameServer {
         });
     }
 
-    RangeExecFuncInPlayerMap(action: (...args: any[]) => void, start: number, end: number, ...extraArgs: any[]) {
+    rangeExecFuncInPlayerMap(action: (...args: any[]) => void, start: number, end: number, ...extraArgs: any[]) {
         let count = 0;
     
         this.playerContainer.forEach((value, key) => {
@@ -210,5 +210,48 @@ export class GameServer {
             count++;
         });
     }
+
+    // TCP
+    sendMsgToClientTCPbyIPAddress(ipKey : string, msg : string) {
+        let player = this.getPlayerByIpAddress(ipKey);
+        const encoder = new TextEncoder();
+        const sendMsg = encoder.encode(msg);
+        player?.sendMsgTCP(sendMsg);
+    }
+
+    sendMsgToClientTCPbyPID(idKey : number, msg : string) {
+        let player = this.getPlayerById(idKey);
+        const encoder = new TextEncoder();
+        const sendMsg = encoder.encode(msg);
+        player?.sendMsgTCP(sendMsg);
+    }
+
+    sendMsgToAllTCP(msg : string) {
+        
+        const encoder = new TextEncoder();
+        const sendMsg = encoder.encode(msg);
+
+        this.playerContainer.forEach((value, key) => {
+            this.sendMsgToClientTCPbyIPAddress(key, msg);
+        });
+
+    }
+
+    // UDP
+    sendMsgToClientUDPbyIPAddress() {
+        // let player = this.getPlayerByIpAddress(ipKey);
+        // const encoder = new TextEncoder();
+        // const sendMsg = encoder.encode(msg);
+        // player?.sendMsgTCP(sendMsg);
+    }
+
+    sendMsgToClientUDPbyPID() {
+
+    }
+
+    sendMsgToAllUDP() {
+        
+    }
+
 
 }
