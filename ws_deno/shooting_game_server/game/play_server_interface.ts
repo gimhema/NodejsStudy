@@ -8,10 +8,15 @@ export class GameServer {
     private static instance: GameServer | null = null;
 
     private playerContainer : Map<string, Player>;
+    private pIdMap : Map <number, string>;
+    private pIdTop : number = 0;
+
     private messageHandler : MessageHandler;
 
     constructor() {
         this.playerContainer = new Map<string, Player>();
+        this.pIdMap = new Map<number, string>();
+
         this.messageHandler = new MessageHandler();
     }
 
@@ -90,6 +95,8 @@ export class GameServer {
 
     addNewPlayer(key : string, player : Player) {
         this.playerContainer.set(key, player);
+        this.pIdMap.set(this.pIdTop, key);
+        this.pIdTop += 1;
     }
 
     messageAction(msg: string) {
@@ -135,7 +142,37 @@ export class GameServer {
         {
             console.log(`No player found with IP ${ipAddress}.`); // 플레이어가 없을 경우 메시지 출력
         }
+        else
+        {
+            let delKey = 0;
+            this.pIdMap.forEach((value, key) => {
+                if (value === ipAddress) {
+                  delKey = key;
+                }
+              });
+            this.pIdMap.delete(delKey);
+        }
     }
+
+    getPlayerById(pId: number): Player | null {
+        const ipKey = this.pIdMap.get(pId);
+        
+        // ipKey가 존재하는지 확인
+        if (ipKey !== undefined) {
+            const player = this.playerContainer.get(ipKey);
     
+            // player가 존재하는지 확인
+            if (player !== undefined) {
+                return player; // 플레이어를 반환
+            } else {
+                console.log(`No player found with IP ${ipKey}.`);
+            }
+        } else {
+            console.log(`No IP associated with player ID ${pId}.`);
+        }
+    
+        return null; // 플레이어가 없을 경우 null 반환
+    }
+
 
 }

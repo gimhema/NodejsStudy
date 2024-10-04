@@ -51,4 +51,6 @@ export class Player {
         this.isEstablishedTCP = false;
         this.isEstablishedUDP = false; 
     }
+
+    
 }
