@@ -53,7 +53,19 @@ export class GamePacketDamage {
             damage: this.damage,
         });
     }
-
 }
 
+export class GamePacketStatus {
+    packetType : number = 3;
+    playerId : number = 0;
+    health : number = 0;
 
+    toJSON(): string {
+        return JSON.stringify({
+            packetType: this.packetType,
+            playerId: this.playerId,
+            health: this.health,
+        });
+    }
+
+}
