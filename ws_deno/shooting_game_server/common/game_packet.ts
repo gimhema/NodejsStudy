@@ -4,26 +4,26 @@ import { Rotation, Location, MoveMode } from "./game_data.ts";
 // 1 : Transformation
 // 2 : Damage
 
-export interface GamePakcetPing {
-    packetType : number;
-    playerId : number;
+export class GamePakcetPing {
+    packetType : number = 0;
+    playerId : number = 0;
 }
 
-export interface GamePacketTransformation {
-    packetType : number;
-    playerId : number;
-    locX : number;
-    locY : number;
-    locZ : number;
-    roll : number;
-    pitch : number;
-    yaw : number;
+export class GamePacketTransformation {
+    packetType : number = 0;
+    playerId : number = 0;
+    locX : number = 0;
+    locY : number = 0;
+    locZ : number = 0;
+    roll : number = 0;
+    pitch : number = 0;
+    yaw : number = 0;
 };
 
-export interface GamePacketDamage {
-    packetType : number;
-    playerId : number;
-    damage : number;
+export class GamePacketDamage {
+    packetType : number = 0;
+    playerId : number = 0;
+    damage : number = 0;
 }
 
 
