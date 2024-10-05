@@ -52,8 +52,11 @@ export class Player {
         this.isEstablishedUDP = false; 
     }
 
-    sendMsgUDP(target : Deno.Addr, msg : Uint8Array) {
-        this.playerSession?.udpSocket.send(msg, target);
+    sendMsgUDP(msg : Uint8Array) {
+        let sendAddr = this.playerSession?.udpAddr;
+        if(sendAddr != undefined) {
+            this.playerSession?.udpSocket.send(msg, sendAddr);
+        }
     }
 
     sendMsgTCP(msg : Uint8Array) {

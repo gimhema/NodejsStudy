@@ -44,6 +44,7 @@ export class GameServer {
                 player.playerSession = {
                     sessionId: Date.now(),  // sessionId를 현재 시간 기반으로 생성 (유일성 보장)
                     udpSocket: null as unknown as Deno.DatagramConn, // 초기 값, 이후 실제 연결 시 설정
+                    udpAddr : null as unknown as Deno.Addr,
                     tcpStream: tcpStream
                 };
             } else {
@@ -67,6 +68,7 @@ export class GameServer {
             } else {
                 // 기존 세션에 UDP 스트림만 갱신
                 player.playerSession.udpSocket = udpSocket;
+                player.playerSession.udpAddr = udpSocket.addr;
             }
     
             // UDP 연결이 성공적으로 설정되었음을 표시
