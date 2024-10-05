@@ -240,19 +240,27 @@ export class GameServer {
     }
 
     // UDP
-    sendMsgToClientUDPbyIPAddress() {
-        // let player = this.getPlayerByIpAddress(ipKey);
-        // const encoder = new TextEncoder();
-        // const sendMsg = encoder.encode(msg);
-        // player?.sendMsgTCP(sendMsg);
+    sendMsgToClientUDPbyIPAddress(ipKey : string, msg : string) {
+        let player = this.getPlayerByIpAddress(ipKey);
+        const encoder = new TextEncoder();
+        const sendMsg = encoder.encode(msg);
+        player?.sendMsgUDP(sendMsg);
     }
 
-    sendMsgToClientUDPbyPID() {
-
+    sendMsgToClientUDPbyPID(idKey : number, msg : string) {
+        let player = this.getPlayerById(idKey);
+        const encoder = new TextEncoder();
+        const sendMsg = encoder.encode(msg);
+        player?.sendMsgTCP(sendMsg);
     }
 
-    sendMsgToAllUDP() {
-        
+    sendMsgToAllUDP(msg : string) {
+        const encoder = new TextEncoder();
+        const sendMsg = encoder.encode(msg);
+
+        this.playerContainer.forEach((value, key) => {
+            this.sendMsgToClientUDPbyIPAddress(key, msg);
+        });
     }
 
 
