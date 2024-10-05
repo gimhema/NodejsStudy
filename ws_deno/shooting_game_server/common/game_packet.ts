@@ -7,10 +7,18 @@ import { Rotation, Location, MoveMode } from "./game_data.ts";
 export class GamePakcetPing {
     packetType : number = 0;
     playerId : number = 0;
+
+    toJSON(): string {
+        return JSON.stringify({
+            packetType: this.packetType,
+            playerId: this.playerId,
+        });
+    }
+
 }
 
 export class GamePacketTransformation {
-    packetType : number = 0;
+    packetType : number = 1;
     playerId : number = 0;
     locX : number = 0;
     locY : number = 0;
@@ -18,12 +26,34 @@ export class GamePacketTransformation {
     roll : number = 0;
     pitch : number = 0;
     yaw : number = 0;
+
+    toJSON(): string {
+        return JSON.stringify({
+            packetType: this.packetType,
+            playerId: this.playerId,
+            locX: this.locX,
+            locY: this.locY,
+            locZ: this.locZ,
+            roll: this.roll,
+            pitch: this.pitch,
+            yaw: this.yaw,
+        });
+    }
 };
 
 export class GamePacketDamage {
-    packetType : number = 0;
+    packetType : number = 2;
     playerId : number = 0;
     damage : number = 0;
+
+    toJSON(): string {
+        return JSON.stringify({
+            packetType: this.packetType,
+            playerId: this.playerId,
+            damage: this.damage,
+        });
+    }
+
 }
 
 
