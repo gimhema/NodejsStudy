@@ -6,10 +6,9 @@ import { MessageHandler } from "../common/game_message_action.ts";
 
 export class GameServer {
     private static instance: GameServer | null = null;
-
-    private playerContainer : Map<string, Player>;
-    private pIdMap : Map <number, string>;
-    private pIdTop : number = 0;
+    playerContainer : Map<string, Player>;
+    pIdMap : Map <number, string>;
+    pIdTop : number = 0;
 
     private messageHandler : MessageHandler;
 
@@ -251,7 +250,7 @@ export class GameServer {
         let player = this.getPlayerById(idKey);
         const encoder = new TextEncoder();
         const sendMsg = encoder.encode(msg);
-        player?.sendMsgTCP(sendMsg);
+        player?.sendMsgUDP(sendMsg);
     }
 
     sendMsgToAllUDP(msg : string) {
