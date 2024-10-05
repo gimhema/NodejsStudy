@@ -1,5 +1,6 @@
 import { GameServer } from "./play_server_interface.ts";
 import { Player } from "./../common/game_data.ts"
+import { syncPlayerStatus, syncPlayerTransform } from "../common/game_update_action.ts";
 
 let message_count = 0;
 
@@ -99,14 +100,10 @@ async function handleTcpConnections() {
     }
 }
 
-function gameUpdate() {
-  // 주기적으로 실행할 작업 (예: 플레이어 상태 업데이트, 세션 관리 등)
-  console.log("Update: Server is running...");
-  
-  // 예시로 모든 플레이어의 위치를 로그로 출력
-  // gameServer.players.forEach(player => {
-  //   console.log(`Player ${player.name}: ${player.location.x}, ${player.location.y}, ${player.location.z}`);
-  // });
+function gameUpdate() { 
+
+  syncPlayerTransform();
+  syncPlayerStatus();
 
 }
 
