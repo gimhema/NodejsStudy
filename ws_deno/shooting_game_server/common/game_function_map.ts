@@ -1,6 +1,6 @@
 type FunctionType = (...args: any[]) => void;
 
-class FunctionMap {
+export class FunctionMap {
     private functionMap: Map<number, FunctionType>;
 
     constructor() {
@@ -29,6 +29,14 @@ class FunctionMap {
         } else {
             console.log(`Function for id ${id} not found.`);
         }
+    }
+
+    public init() {
+
+        // // 함수 등록
+        // functionMap.register(1, exampleFunction1);
+        // functionMap.register(2, exampleFunction2);
+
     }
 }
 

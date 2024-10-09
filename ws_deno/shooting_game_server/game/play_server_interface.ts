@@ -1,14 +1,15 @@
 import { Player } from "../common/game_data.ts";
 import { GamePakcetPing, GamePacketDamage, GamePacketTransformation, GamePacketSwapWeapon } from "../common/game_packet.ts";
 import { MessageHandler } from "../common/game_message_action.ts";
+import { FunctionMap } from "../common/game_function_map.ts";
 
-// Map<string, { hostname: string; port: number }>();
 
 export class GameServer {
     private static instance: GameServer | null = null;
     playerContainer : Map<string, Player>;
     pIdMap : Map <number, string>;
     pIdTop : number = 0;
+    functionMap : FunctionMap = new FunctionMap();
 
     private messageHandler : MessageHandler;
 
@@ -268,5 +269,8 @@ export class GameServer {
         });
     }
 
+    initFunctionMap() {
+        this.functionMap.init();
+    }
 
 }
