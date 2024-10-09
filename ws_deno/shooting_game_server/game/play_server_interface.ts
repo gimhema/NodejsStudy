@@ -1,6 +1,6 @@
 import { Player } from "../common/game_data.ts";
 import { GamePakcetPing, GamePacketDamage, GamePacketTransformation, GamePacketSwapWeapon } from "../common/game_packet.ts";
-import { MessageHandler } from "../common/game_message_action.ts";
+// import { MessageHandler } from "../common/game_message_action.ts";
 import { FunctionMap } from "../common/game_function_map.ts";
 
 
@@ -11,13 +11,10 @@ export class GameServer {
     pIdTop : number = 0;
     functionMap : FunctionMap = new FunctionMap();
 
-    private messageHandler : MessageHandler;
-
     constructor() {
         this.playerContainer = new Map<string, Player>();
         this.pIdMap = new Map<number, string>();
 
-        this.messageHandler = new MessageHandler();
     }
 
     public static getInstance(): GameServer {
@@ -103,44 +100,10 @@ export class GameServer {
 
     messageAction(msg: string) {
         console.log("Server - received:", msg);
-        
-        try {
-            const jsonData : any = JSON.parse(msg); // JSON 파싱
-    
-            switch (jsonData.packetType) {
-                case 0:
-                    {
-                    // Ping
-                    const pingPacket = jsonData as GamePakcetPing;
-                    this.messageHandler.messageAction_Ping(pingPacket);
-                    }
-                    break;
-                case 1:
-                    // Transformation
-                    {
-                        const transformationPacket = jsonData as GamePacketTransformation;
-                        this.messageHandler.messageAction_Transformation(transformationPacket);
-                    }
-                    break;
-                case 2:
-                    // Damage
-                    {
-                        const damagePacket = jsonData  as GamePacketDamage;
-                        this.messageHandler.messageAction_Damage(damagePacket);
-                    }
-                    break;
-                case 4:
-                    {
-                        const swapWeaponPacket = jsonData as GamePacketSwapWeapon;
-                        // this.messageHandler.messageAction_SwapWeapon(swapWeaponPacket);
-                    }
-                    break;
-                default:
-                    console.log("Unknown action:", jsonData.action);
-            }
-        } catch (error) {
-            console.error("Error parsing JSON:", error);
-        }
+
+        const jsonData : any = JSON.parse(msg);
+
+        this.functionMap.execute(jsonData.packetType, jsonData);
     }
     
 

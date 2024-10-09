@@ -1,3 +1,5 @@
+import { messageAction_Ping, messageAction_Transformation, messageAction_Damage } from "./game_message_action.ts";
+
 type FunctionType = (...args: any[]) => void;
 
 export class FunctionMap {
@@ -36,6 +38,10 @@ export class FunctionMap {
         // // 함수 등록
         // functionMap.register(1, exampleFunction1);
         // functionMap.register(2, exampleFunction2);
+
+        this.register(0, messageAction_Ping);
+        this.register(1, messageAction_Transformation);
+        this.register(2, messageAction_Damage);
 
     }
 }
