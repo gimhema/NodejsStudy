@@ -67,5 +67,18 @@ export class GamePacketStatus {
             health: this.health,
         });
     }
+}
 
+export class GamePacketSwapWeapon {
+    packetType : number = 4;
+    playerId : number = 0;
+    weaponUnique : number = 0;
+
+    toJSON() : string {
+        return JSON.stringify({
+           packetType: this.packetType,
+           playerId: this.playerId,
+           weaponUnique: this.weaponUnique, 
+        });
+    }
 }

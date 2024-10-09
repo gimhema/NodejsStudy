@@ -1,5 +1,5 @@
 import { Player } from "../common/game_data.ts";
-import { GamePakcetPing, GamePacketDamage, GamePacketTransformation } from "../common/game_packet.ts";
+import { GamePakcetPing, GamePacketDamage, GamePacketTransformation, GamePacketSwapWeapon } from "../common/game_packet.ts";
 import { MessageHandler } from "../common/game_message_action.ts";
 
 // Map<string, { hostname: string; port: number }>();
@@ -126,6 +126,12 @@ export class GameServer {
                     {
                         const damagePacket = jsonData  as GamePacketDamage;
                         this.messageHandler.messageAction_Damage(damagePacket);
+                    }
+                    break;
+                case 4:
+                    {
+                        const swapWeaponPacket = jsonData as GamePacketSwapWeapon;
+                        // this.messageHandler.messageAction_SwapWeapon(swapWeaponPacket);
                     }
                     break;
                 default:
