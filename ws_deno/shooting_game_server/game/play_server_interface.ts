@@ -269,7 +269,7 @@ export class GameServer {
         });
     }
 
-    initFunctionMap() {
+    initServer() {
         this.functionMap.init();
     }
 

@@ -22,6 +22,8 @@ const tcpListener = Deno.listen({ hostname: SERVER_IP, port: TCP_PORT }); // TCP
 
 const gameServer = GameServer.getInstance();
 
+gameServer.initServer();
+
 console.log(`UDP Server is running on ${SERVER_IP}:${UDP_PORT}`);
 console.log(`TCP Server is running on ${SERVER_IP}:${TCP_PORT}`);
 
